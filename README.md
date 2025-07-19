@@ -2,6 +2,7 @@
 
 🎯 Nerf Turret Web-Controlled System — Powered by ESP32
 This Arduino sketch transforms an ESP32 into a WiFi-accessible control hub for a custom-built Nerf dart turret, featuring servo-actuated firing and dual-motor flywheel propulsion. The system hosts its own access point and dynamic HTML interface, allowing real-time user control from any browser-connected device.
+
 🌐 Key Features
 - WiFi Access Point Mode:
 ESP32 acts as a standalone AP using WiFi.softAP(), serving a local web UI without needing an external router.
@@ -18,6 +19,7 @@ Activates repeated firing at intervals (FIRE_INTERVAL = 500ms) while keeping mot
 - Motors auto-stop after MOTOR_RUN_TIME = 2000ms in single fire mode.
 - Servo reset after TRIGGER_PRESS_TIME = 200ms.
 - Emergency stop resets all states and halts firing.
+
 
 🔧 Web Routes and Their Actions
 | Route | Action | 
