@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nerf Turret Control</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        margin: 50px;
+      }
+      button {
+        padding: 20px;
+        margin: 10px;
+        font-size: 18px;
+      }
+      .fire-button {
+        background-color: red;
+        color: white;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nerf Turret Control</h1>
+    <button class="fire-button" onclick="singleFire()">SINGLE FIRE</button><br><br>
+    <button class="fire-button" onclick="toggleContinuous()" id="continuousBtn">START CONTINUOUS</button><br><br>
+    <button onclick="stopFiring()" style="background-color: orange; color: white;">STOP FIRING</button>
+    <p>Motors: <span id="motorStatus">Stopped</span></p>
+    <p>Fire Mode: <span id="fireMode">Single</span></p>
+
+    <script>
+      let continuousMode = false;
+
+      function singleFire() {
+        fetch('/fire');
+        document.getElementById('motorStatus').textContent = 'Single Fire!';
+        document.getElementById('fireMode').textContent = 'Single';
+        setTimeout(() => {
+          document.getElementById('motorStatus').textContent = 'Stopped';
+        }, 2000);
+      }
+
+      function toggleContinuous() {
+        if (!continuousMode) {
+          continuousMode = true;
+          document.getElementById('continuousBtn').textContent = 'STOP CONTINUOUS';
+          document.getElementById('continuousBtn').style.backgroundColor = 'darkred';
+          document.getElementById('motorStatus').textContent = 'Continuous Fire!';
+          document.getElementById('fireMode').textContent = 'Continuous';
+          fetch('/continuous?mode=start');
+        } else {
+          stopContinuous();
+        }
+      }
+
+      function stopContinuous() {
+        continuousMode = false;
+        document.getElementById('continuousBtn').textContent = 'START CONTINUOUS';
+        document.getElementById('continuousBtn').style.backgroundColor = 'red';
+        document.getElementById('motorStatus').textContent = 'Stopped';
+        document.getElementById('fireMode').textContent = 'Single';
+        fetch('/continuous?mode=stop');
+      }
+
+      function stopFiring() {
+        if (continuousMode) {
+          stopContinuous();
+        }
+        fetch('/stop').then(() => {
+          document.getElementById('motorStatus').textContent = 'Stopped';
+        });
+      }
+    </script>
+  </body>
+</html>
